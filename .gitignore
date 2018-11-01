@@ -1,0 +1,5 @@
+#IDE prefrences
+.idea/
+
+# dependencies
+/node_modules
