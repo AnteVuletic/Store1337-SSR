@@ -11,6 +11,6 @@ const routes = (
             <Route exact path="/store/" component={ProductMapping}/>
             <Route path="/store/:slug" component={ProductMapping}/>
         </Switch>
-)
+);
 
 export default routes;

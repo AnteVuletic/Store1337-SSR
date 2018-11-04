@@ -1,45 +1,19 @@
 import React from 'react';
 import BlogCard from './blogcard';
+import PropTypes from 'prop-types';
 import LoadingScreen from '../loading/loadingscreen';
 import { Link } from 'react-router-dom';
 import './textDec.css';
+import { connect } from 'react-redux';
+import { fetchPosts } from "../../actions/blogPostAction";
 
 class BlogMapping extends React.Component{
-    constructor(propertyOfAppPrototype){
-        super(propertyOfAppPrototype);
-        this.state = {
-            errorFromRequest: null,
-            loadingStatusFromAPI: false,
-            wordPressPosts: []
-        };
-    }
     componentDidMount(){
-        fetch("https://backend.store1337.com/wp-json/wp/v2/posts")
-            .then(responseFromWP => responseFromWP.json())
-            .then(
-                (wordPressPosts) => {
-                    this.setState({
-                        loadingStatusFromAPI: true,
-                        wordPressPosts: wordPressPosts
-                    });
-                },(error) =>{
-                    this.setState({
-                        loadingStatusFromApi: true,
-                        error,
-                        errorFromRequest: error
-                    });
-                }
-            )
+        this.props.fetchPosts();
     }
     render(){
-        const { errorFromRequest,loadingStatusFromAPI,wordPressPosts } = this.state;
-        if(errorFromRequest){
-            return <div>Error : {errorFromRequest}</div>;
-        }else if(!loadingStatusFromAPI){
-            return <LoadingScreen/>;
-        }else{
             return(
-                wordPressPosts.map( wordPressPosts =>{
+                this.props.posts.map( wordPressPosts =>{
                     if(this.props.match.params.slug === wordPressPosts.slug){
                         console.log(this.props.match)
                         return (<BlogCard key={wordPressPosts.slug}
@@ -58,8 +32,15 @@ class BlogMapping extends React.Component{
                 })
         );
         }
-
-    }
 }
+BlogMapping.propTypes = {
+    fetchPosts : PropTypes.func.isRequired,
+    posts: PropTypes.array.isRequired,
+    match: PropTypes.object.isRequired
+};
 
-export default BlogMapping;
+const mapStateToProps = state =>({
+   posts: state.posts.items,
+});
+
+export default connect(mapStateToProps,{fetchPosts})(BlogMapping);
