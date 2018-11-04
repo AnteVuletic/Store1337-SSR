@@ -14,11 +14,11 @@ class ProductMapping extends React.Component{
     }
 
     onSearchChange = (event) => {
-            this.setState({
-                searchFieldProduct: event.target.value
-            })
+        this.setState({
+            searchFieldProduct: event.target.value
+        })
 
-    }
+    };
     render() {
                 const displayProducts = this.props.products.map( productListFetchedFromWp =>{
                            return(<DisplayProduct key={productListFetchedFromWp.slug}
@@ -29,10 +29,10 @@ class ProductMapping extends React.Component{
                                             PurchaseLinkPassed={productListFetchedFromWp.external_url}
                             />
                            );
-                    })
+                    });
                 return (
                         <div>
-                            <SearchBox searchChange={this.onSearchChange} />
+                            {/*<SearchBox searchChange={this.onSearchChange} /> */}
                             <Masonry breakpointCols={{default: 3}}
                                      className="flex w-80 center"
                                      columnClassName="mh1 mv4 center">
