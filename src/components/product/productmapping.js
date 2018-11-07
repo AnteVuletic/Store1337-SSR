@@ -1,9 +1,8 @@
 import React from 'react';
-import Loading from '../loading/loadingscreen';
 import DisplayProduct from './displayproduct';
 import Masonry from 'react-masonry-css';
-import SearchBox from './searchbox'
-import PropTypes from 'prop-types'
+import SearchBox from './searchbox';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchProducts } from "../../actions/productAction";
@@ -13,13 +12,14 @@ class ProductMapping extends React.Component{
         this.props.fetchProducts();
     }
 
-    onSearchChange = (event) => {
+/*  onSearchChange = (event) => {
         this.setState({
             searchFieldProduct: event.target.value
         })
 
     };
-    render() {
+*/
+    render(){
                 const displayProducts = this.props.products.map( productListFetchedFromWp =>{
                            return(<DisplayProduct key={productListFetchedFromWp.slug}
                                             InternalKey = {productListFetchedFromWp.slug}
@@ -42,10 +42,10 @@ class ProductMapping extends React.Component{
                 );
             }
 }
-ProductMapping.proptype = {
+ProductMapping.propTypes = {
     fetchProducts: PropTypes.func.isRequired,
-    products: PropTypes.array.isRequired,
-    match: PropTypes.object.isRequired
+    products: PropTypes.array,
+    match: PropTypes.object
 };
 
 const mapStateToProps = state =>({

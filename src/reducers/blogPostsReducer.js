@@ -1,7 +1,7 @@
 import { FETCH_POSTS } from '../actions/types';
 
 const initialState = {
-  items: []
+  action.type = FETCH_POSTS;
 };
 
 export default function (state = initialState, action) {
@@ -10,9 +10,13 @@ export default function (state = initialState, action) {
             return{
                 ...state,
                 items:action.payload
+            };
+        default: {
+            return{
+                ...state,
+                items: action.payload
             }
-        default:
-            return state
+        }
     }
 }
 

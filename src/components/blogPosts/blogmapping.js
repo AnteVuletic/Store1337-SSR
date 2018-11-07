@@ -1,9 +1,7 @@
 import React from 'react';
 import BlogCard from './blogcard';
 import PropTypes from 'prop-types';
-import LoadingScreen from '../loading/loadingscreen';
 import { Link } from 'react-router-dom';
-import './textDec.css';
 import { connect } from 'react-redux';
 import { fetchPosts } from "../../actions/blogPostAction";
 
@@ -15,7 +13,7 @@ class BlogMapping extends React.Component{
             return(
                 this.props.posts.map( wordPressPosts =>{
                     if(this.props.match.params.slug === wordPressPosts.slug){
-                        console.log(this.props.match)
+                        console.log(this.props.match);
                         return (<BlogCard key={wordPressPosts.slug}
                                           BlogTitle={wordPressPosts.title.rendered}
                                           BlogPost={wordPressPosts.content.rendered}
@@ -35,8 +33,8 @@ class BlogMapping extends React.Component{
 }
 BlogMapping.propTypes = {
     fetchPosts : PropTypes.func.isRequired,
-    posts: PropTypes.array.isRequired,
-    match: PropTypes.object.isRequired
+    posts: PropTypes.array,
+    match: PropTypes.object
 };
 
 const mapStateToProps = state =>({
