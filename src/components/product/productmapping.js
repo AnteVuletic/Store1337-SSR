@@ -8,6 +8,9 @@ import { connect } from 'react-redux';
 import { fetchProducts } from "../../actions/productAction";
 
 class ProductMapping extends React.Component{
+    static fetchData(store){
+        return store.dispatch(fetchProducts());
+    }
     componentDidMount() {
         this.props.fetchProducts();
     }

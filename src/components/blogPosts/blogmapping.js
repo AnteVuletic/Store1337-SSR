@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import { fetchPosts } from "../../actions/blogPostAction";
 
 class BlogMapping extends React.Component{
+    static fetchData(store){
+        return store.dispatch(fetchPosts());
+    }
     componentDidMount(){
         this.props.fetchPosts();
     }

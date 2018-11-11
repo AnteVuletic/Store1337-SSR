@@ -1,35 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'tachyons';
-import Navbar from './components/navbar/navbar';
+
+import { BrowserRouter,Switch } from 'react-router-dom';
+import { renderRoutes } from 'react-router-config';
 import routes from './components/routes';
-import {BrowserRouter} from 'react-router-dom';
+
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import rootReducer from './reducers/rootReducer';
+import { createStore, applyMiddleware } from 'redux';
 
-import createStore from './store';
 
-const store = createStore(( typeof window !== "undefined" && window && window.REDUX_DATA));
+let store = createStore(rootReducer, window.REDUX_DATA || {} ,applyMiddleware(thunk));
 
-class App extends React.Component {
-    render(){
-        return(
-                    <div>
-                        <Navbar/>
-                        <div className="pt6">
-                            {routes}
-                        </div>
-                    </div>
-        );
-    }
-
-}
+const App = () =>{
+    return(
+        <div className="pt6">
+            <BrowserRouter>
+                <Switch>
+                    {renderRoutes(routes)}
+                </Switch>
+            </BrowserRouter>
+        </div>
+    );
+};
 if(typeof window !== "undefined" && window ) {
     ReactDOM.hydrate(
         <Provider store={store}>
-            <BrowserRouter>
-                <App/>
-            </BrowserRouter>
+            <App />
         </Provider>
         , document.getElementById('app'));
 }
-export default App;

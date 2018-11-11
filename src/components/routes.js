@@ -1,16 +1,30 @@
-import React from 'react';
+import appRoot from '../app-root';
 import BlogMapping from './blogPosts/blogmapping';
 import ProductMapping from './product/productmapping';
-import {Route,Switch} from 'react-router-dom';
 
-const routes = (
-        <Switch>
-            <Route exact path="/" component={BlogMapping}/>
-            <Route exact path="/blog/" component={BlogMapping}/>
-            <Route path="/blog/:slug" component={BlogMapping}/>
-            <Route exact path="/store/" component={ProductMapping}/>
-            <Route path="/store/:slug" component={ProductMapping}/>
-        </Switch>
-);
+const routes = [
+    {   component: appRoot,
+        routes:[
+            {
+                path: '/',
+                exact: true,
+                component: BlogMapping
+            },{
+              path: '/blog',
+              exact: true,
+              component: BlogMapping
+            },{
+                path: '/blog/:slug',
+                component: BlogMapping
+            },{
+                path: '/store',
+                component: ProductMapping
+            },{
+                path: '/store/:slug',
+                component: ProductMapping
+            }
+        ]
+    }
+];
 
 export default routes;

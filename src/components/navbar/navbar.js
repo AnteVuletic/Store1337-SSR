@@ -1,6 +1,5 @@
 import React from 'react';
 import ButtonNav from './buttonnav';
-import { connect } from 'react-redux';
 
 class navbar extends React.Component{
 
@@ -15,8 +14,5 @@ class navbar extends React.Component{
                 );
             }
 }
-const mapStateToProps = ( state ) =>({
-    loggedIn: state.loggedIn
-});
 
-export default connect (mapStateToProps)( navbar );
+export default navbar;

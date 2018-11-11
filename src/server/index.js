@@ -1,5 +1,4 @@
 import express from 'express';
-import request from 'request';
 
 import React from 'react';
 import {renderToString} from 'react-dom/server';
@@ -14,11 +13,12 @@ import thunk from 'redux-thunk';
 import routes from '../components/routes';
 import rootReducer from '../reducers/rootReducer';
 
-const router = express.Router();
+const PORT = 8080;
+const app = express();
 
 const store = createStore(rootReducer,applyMiddleware(thunk));
 
-router.get('*',(req,res) =>{
+app.get('*',(req,res) =>{
    const branch = matchRoutes(routes,req.url);
    const promises = branch.map(({route})=>{
        let fetchData = route.component.fetchData;
@@ -33,7 +33,23 @@ router.get('*',(req,res) =>{
                </StaticRouter>
            </Provider>
        );
-       res.render('index',{tittle:'Express', date:store.getState(),content})
+       res.send(`
+               <!DOCTYPE html>
+           <html lang="en">
+           <head>
+               <meta charset="UTF-8">
+                   <link rel="stylesheet" href="https://unpkg.com/tachyons@4/css/tachyons.min.css">
+                       <title>Store 1337</title>
+           </head>
+           <body>
+           <div id="app">${content}</div>
+           <script>window.REDUX_DATA = ${JSON.stringify(store.getState())}</script>
+           <script type="text/javascript" src="/bundle.js" defer></script>
+           </body>
+           </html>
+           `
+       );
    });
 });
-module.exports = router;
+
+app.listen(PORT, () => console.log(`Frontend service listening on port: ${PORT}`));
