@@ -1,46 +1,39 @@
 import express from 'express';
-import { renderToString } from 'react-dom/server';
-import { Provider } from 'react-redux';
-import createStore  from '../store';
-import { StaticRouter } from 'react-router-dom';
-import App from '../index.js';
+import request from 'request';
+
 import React from 'react';
+import {renderToString} from 'react-dom/server';
+
+import StaticRouter from 'react-router-dom/StaticRouter';
+import { matchRoutes, renderRoutes } from 'react-router-config';
+
+import { createStore,applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
+import routes from '../components/routes';
 import rootReducer from '../reducers/rootReducer';
 
-const PORT = 8079;
-const app = express();
+const router = express.Router();
 
-app.use(express.static('dist'));
+const store = createStore(rootReducer,applyMiddleware(thunk));
 
-app.get('*', (req, res) => {
-    const context = {};
-    const store = createStore(rootReducer);
-
-    const content = renderToString(
-        <Provider store={store}>
-            <StaticRouter context={context} location={req.url}>
-                <App/>
-            </StaticRouter>
-        </Provider>
-    );
-    const reduxState = store.getState();
-    const raw =`
-  <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="https://unpkg.com/tachyons@4/css/tachyons.min.css">
-        <title>Store 1337</title>
-      </head>
-      <body>
-      <div id="app">${content}</div>
-      <script>window.REDUX_DATA = ${JSON.stringify(reduxState)}</script>
-      <script type="text/javascript" src="./index_bundle.js"></script>
-      </body>
-      </html>
-  `;
-
-    res.send(raw);
+router.get('*',(req,res) =>{
+   const branch = matchRoutes(routes,req.url);
+   const promises = branch.map(({route})=>{
+       let fetchData = route.component.fetchData;
+       return fetchData instanceof Function ? fetchData(store) : Promise.resolve(null)
+   });
+   return Promise.all(promises).then((data)=>{
+       let context = {};
+       const content = renderToString(
+           <Provider store={store}>
+               <StaticRouter location={req.url} context={context}>
+                   {renderRoutes(routes)}
+               </StaticRouter>
+           </Provider>
+       );
+       res.render('index',{tittle:'Express', date:store.getState(),content})
+   });
 });
-
-app.listen(PORT, () => console.log(`Frontend service listening on port: ${PORT}`));
+module.exports = router;
