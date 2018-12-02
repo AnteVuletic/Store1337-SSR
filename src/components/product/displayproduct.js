@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom'
 const DisplayProduct = (PropertiesFromMapping) =>{
         return (
             <div className="ba b--black-20 ma3 z-0">
-                <Link className="noTextDec" to={`/store/${PropertiesFromMapping.InternalKey}`}>
+                <Link className="no-underline" to={`/store/${PropertiesFromMapping.InternalKey}`}>
                         <ProductImage ImagePassed={PropertiesFromMapping.ImagePassed}/>
                         <ProductTitle TitlePassed={PropertiesFromMapping.TitlePassed}/>
                         <ProductDescription DescriptionPassed={PropertiesFromMapping.DescriptionPassed}/>

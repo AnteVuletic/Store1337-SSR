@@ -38,7 +38,6 @@ app.get('*',(req,res) =>{
            <html lang="en">
            <head>
                <meta charset="UTF-8">
-                   <link rel="stylesheet" href="https://unpkg.com/tachyons@4/css/tachyons.min.css">
                        <title>Store 1337</title>
            </head>
            <body>

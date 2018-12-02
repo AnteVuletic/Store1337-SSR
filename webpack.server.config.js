@@ -5,7 +5,7 @@ module.exports = {
     mode: 'production',
     target: 'node',
     externals: [webpackNodeExternals({
-        whitelist: ['tachyons']
+        whitelist: ['tachyons','react-masonry-css']
     })],
     entry: './src/server/index.js',
     output: {
@@ -20,8 +20,8 @@ module.exports = {
                     loader: 'babel-loader',
                 }
             },{
-                loader: 'css-loader/locals',
                 test: /\.css$/,
+                loader: 'css-loader/locals',
                 options: {
                     modules: true,
                     localIdentName: '[local]',

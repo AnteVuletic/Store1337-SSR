@@ -23,7 +23,7 @@ class BlogMapping extends React.Component{
                                           BlogPostDate={wordPressPosts.date}
                         />);
                     }else{
-                        return ( <Link className="noTextDec" to={`/blog/${wordPressPosts.slug}`}>
+                        return ( <Link className="no-underline black" to={`/blog/${wordPressPosts.slug}`}>
                             <BlogCard key={wordPressPosts.slug}
                                       BlogTitle={wordPressPosts.title.rendered}
                                       BlogPost={wordPressPosts.excerpt.rendered}
