@@ -6,7 +6,9 @@
   "scripts": {
     "buildServer": "webpack --config webpack.server.config.js",
     "start": "webpack-dev-server --env.development --open --hot",
-    "build": "webpack --env.production"
+    "build": "webpack --env.production",
+    "build:all": "npm run buildServer && npm run build",
+    "start:server": "node dist/server.js"
   },
   "repository": {
     "type": "git",
